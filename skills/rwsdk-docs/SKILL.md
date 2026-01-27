@@ -3,416 +3,119 @@ name: rwsdk-docs
 description: Expert assistance for building full-stack React applications on Cloudflare Workers with RedwoodSDK. Use when working with RedwoodSDK projects, building React Server Components on Cloudflare, setting up routing/middleware, creating server functions, implementing authentication with passkeys, building realtime features with Durable Objects and WebSockets, integrating Cloudflare services (email, queues, R2 storage, cron), configuring environment variables, deploying to Cloudflare, or troubleshooting RSC/hydration/request context issues. Covers rwsdk package, defineApp, route, render, server actions, Durable Objects, and Cloudflare Workers platform integration.
 ---
 
-# RedwoodSDK Coder
+# RedwoodSDK Documentation
 
-Expert assistance for building full-stack React applications with RedwoodSDK deployed to Cloudflare Workers.
+RedwoodSDK is a React framework for Cloudflare Workers that works as a Vite plugin. It provides SSR, React Server Components, server functions, streaming, and full integration with Cloudflare's platform (D1, R2, Queues, Durable Objects, Email Workers, Cron Triggers).
 
 ## How to Use This Skill
 
-This skill provides **progressive disclosure** - overview here, details in reference files:
+Read the relevant reference file(s) based on the user's question. All reference files are `.mdx` (Astro Starlight format) and contain code examples, configuration snippets, and explanations.
 
-1. **Start here** for quick start, core concepts, and common patterns
-2. **Read reference files** when you need detailed documentation for specific features
-3. **Use "When to Read Reference Files"** section below to find the right reference quickly
+**Lookup strategy:** Match the user's question to the closest topic in the index below, then read that file. For broad questions, start with `core/overview.mdx` or `core/routing.mdx`.
 
-The skill will automatically read reference files when needed for your task.
-
-## Overview
-
-RedwoodSDK is a framework for building React Server Components applications on Cloudflare's edge network. It provides:
-
-- **React Server Components** - Server-first rendering with client interactivity
-- **Edge Routing** - Fast request handling at Cloudflare's edge
-- **Cloudflare Integration** - Native access to D1, R2, Durable Objects, Queues, Email, etc.
-- **TypeScript-first** - Full type safety across client and server
-- **Vite-powered** - Fast local development with HMR
-
-## Quick Start
-
-### Creating a New Project
-
-```bash
-# Create new project
-npx create-rwsdk my-project-name
-
-# Install dependencies
-cd my-project-name
-npm install
-
-# Start dev server
-npm run dev
-```
-
-### Project Structure
-
-```
-my-project/
-├── src/
-│   ├── worker.tsx              # Main entry point, middleware, routes
-│   ├── client.tsx              # Client initialization
-│   ├── db.ts                   # Database client (if using DB)
-│   ├── session/                # Session management (Durable Objects)
-│   ├── app/
-│   │   ├── Document.tsx        # HTML document template
-│   │   ├── headers.ts          # Security headers middleware
-│   │   ├── interruptors.ts     # Auth/validation middleware
-│   │   ├── layouts/            # Layout components
-│   │   ├── components/         # Shared UI components
-│   │   └── pages/              # Route groups
-│   │       ├── home/           # Home page routes
-│   │       ├── user/           # User auth routes
-│   │       └── api/            # API routes
-├── wrangler.jsonc              # Cloudflare Workers configuration
-├── prisma/schema.prisma        # Database schema (if using Prisma)
-└── package.json
-```
-
-## Core Concepts
-
-### 1. React Server Components (RSC)
-
-**Default**: All components are server components (rendered on server, streamed as HTML).
-
-```tsx
-// Server component - async data fetching
-export async function TodoList({ ctx }) {
-  const todos = await db.todo.findMany({ where: { userId: ctx.user.id } });
-
-  return (
-    <ol>
-      {todos.map((todo) => (
-        <li key={todo.id}>{todo.title}</li>
-      ))}
-    </ol>
-  );
-}
-```
-
-**Client components**: Mark with `"use client"` for interactivity.
-
-```tsx
-"use client";
-
-export function Counter() {
-  const [count, setCount] = useState(0);
-  return <button onClick={() => setCount(count + 1)}>Count: {count}</button>;
-}
-```
-
-### 2. Server Functions
-
-Execute code on server from client components. Mark with `"use server"`.
-
-```tsx
-"use server";
-
-import { requestInfo } from "rwsdk/worker";
-import { getDbClient } from "@/db";
-
-export async function addTodo(formData: FormData) {
-  const { ctx } = requestInfo;
-  const db = getDbClient();
-
-  const title = formData.get("title");
-  await db.todo.create({ data: { title, userId: ctx.user.id } });
-}
-```
-
-Use in client component:
-
-```tsx
-"use client";
-
-import { addTodo } from "./functions";
-
-export function AddTodo() {
-  return (
-    <form action={addTodo}>
-      <input type="text" name="title" />
-      <button type="submit">Add</button>
-    </form>
-  );
-}
-```
-
-### 3. Routing
-
-Routes defined with `route()` function:
-
-```tsx
-import { defineApp, route, prefix, render } from "rwsdk/router";
-import { Document } from "@/app/Document";
-
-export default defineApp([
-  // Middleware
-  setCommonHeaders(),
-  setupAuth(),
-
-  // Routes
-  render(Document, [
-    route("/", HomePage),
-    route("/about", AboutPage),
-    route("/users/:id", UserProfilePage),  // Dynamic params
-    route("/api/data", apiHandler),
-
-    // Group routes with prefix
-    prefix("/blog", [
-      route("/", BlogListPage),
-      route("/:slug", BlogPostPage),
-    ]),
-  ]),
-]);
-```
-
-### 4. Middleware & Interruptors
-
-Middleware runs on every request. Interruptors run before specific routes.
-
-```tsx
-// Middleware (runs on all requests)
-async ({ ctx, request }) => {
-  ctx.session = await sessions.load(request);
-  ctx.user = await db.user.findUnique({ where: { id: ctx.session.userId } });
-}
-
-// Interruptor (runs before specific route)
-async function requireAuth({ ctx }) {
-  if (!ctx.user) {
-    return Response.redirect("/user/login");
-  }
-}
-
-// Use interruptor
-route("/dashboard", [requireAuth, DashboardPage]);
-```
-
-### 5. Context
-
-Context is request-scoped data available to server components and functions.
-
-```tsx
-// Set in middleware
-async ({ ctx }) => {
-  ctx.user = await getUser();
-  ctx.session = await getSession();
-}
-
-// Access in server component
-export async function Page({ ctx }) {
-  return <h1>Hello, {ctx.user.name}</h1>;
-}
-
-// Access in server function
-"use server";
-import { requestInfo } from "rwsdk/worker";
-
-export async function action() {
-  const { ctx } = requestInfo;
-  console.log(ctx.user);
-}
-```
-
-## Common Tasks
-
-Quick reference for common development tasks. See reference files for detailed documentation.
-
-### Adding Features
-
-**New route**: Create component in `src/app/pages/`, add to `worker.tsx` with `route()`. → [routing.md](references/routing.md)
-
-**Server function**: Create `"use server"` file, access context via `requestInfo.ctx`. → [react-server-components.md](references/react-server-components.md)
-
-**Database model**: Edit `schema.prisma`, run migrations, generate types. → [database.md](references/database.md)
-
-**Authentication**: Implement passkeys with session management. → [authentication.md](references/authentication.md)
-
-**Real-time features**: Use WebSockets with Durable Objects. → [realtime.md](references/realtime.md)
-
-**Background jobs**: Set up Cloudflare Queues for async tasks. → [queues.md](references/queues.md)
-
-**Scheduled tasks**: Configure cron triggers in `wrangler.jsonc`. → [cron.md](references/cron.md)
-
-**Email**: Send/receive email with Cloudflare Email. → [email.md](references/email.md)
-
-**File storage**: Upload/download files with R2. → [storage.md](references/storage.md)
-
-### Critical Patterns
-
-**Database client**: Always use `getDbClient()` for request-scoped connections (never import global `db`).
-
-**Server functions**: Access context via `requestInfo.ctx`, not `getRequestInfo()`.
-
-**Real-time updates**: Call `refreshCacheAndSyncClients()` after mutations for atomic updates.
-
-### Deployment
-
-```bash
-# Quick deployment
-npm run migrate:prd        # Apply migrations
-npx wrangler secret put KEY  # Set secrets
-npm run release            # Deploy
-
-# Staging
-CLOUDFLARE_ENV=staging npm run release
-```
-
-See [hosting.md](references/hosting.md) for complete deployment guide including custom domains, environments, and CI/CD.
-
-## Reference Documentation
-
-This skill includes comprehensive reference files for all RedwoodSDK features. Load them as needed:
+## Documentation Index
 
 ### Getting Started
-- **[quick-start.md](references/quick-start.md)** - Creating projects, development workflow, first routes
-- **[api-reference.md](references/api-reference.md)** - Complete API docs for rwsdk packages (worker, router, client)
-- **[migrating.md](references/migrating.md)** - Migration guide from 0.x to 1.x versions
+| File | Topics |
+|------|--------|
+| [references/index.mdx](references/index.mdx) | Introduction, design principles (zero magic, composability, web-first), what RedwoodSDK is |
+| [references/getting-started/quick-start.mdx](references/getting-started/quick-start.mdx) | Project setup, `create-rwsdk`, `pnpm dev`, `pnpm release`, first route, deployment |
+| [references/migrating.mdx](references/migrating.mdx) | Upgrading 0.x to 1.x, breaking changes, `isAction`, `resolveSSRValue` removal, passkey addon migration |
 
-### Core Features
-- **[routing.md](references/routing.md)** - Routes, middleware, interruptors, HTTP methods, documents
-- **[react-server-components.md](references/react-server-components.md)** - RSC, server functions, data fetching
-- **[database.md](references/database.md)** - Durable Objects with SQLite, migrations, Kysely queries
+### Core Concepts
+| File | Topics |
+|------|--------|
+| [references/core/overview.mdx](references/core/overview.mdx) | Table of contents for all core docs, overview video |
+| [references/core/routing.mdx](references/core/routing.mdx) | `defineApp`, `route`, middleware, `ctx`, interrupters, static/parameter/wildcard routes, HTTP methods, `render()`, `requestInfo`, `getRequestInfo()`, `linkFor`, prefetch |
+| [references/core/react-server-components.mdx](references/core/react-server-components.mdx) | RSC, `"use client"`, `"use server"`, `serverQuery`, `serverAction`, Suspense, streaming, `renderToStream`, `renderToString`, `onActionResponse` |
+| [references/core/authentication.mdx](references/core/authentication.mdx) | Session management, `defineDurableSession`, Durable Objects, passkey addon, cookies, `sessionStore`, middleware auth, `ErrorResponse` |
+| [references/core/security.mdx](references/core/security.mdx) | CSP, nonce (`rw.nonce`), X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, `setCommonHeaders` |
+| [references/core/storage.mdx](references/core/storage.mdx) | R2 object storage, file upload/download, streaming, `r2_buckets` binding |
+| [references/core/email.mdx](references/core/email.mdx) | Cloudflare Email Workers, `send_email` binding, inbound/outbound email, `PostalMime`, `mimetext`, `message.reply()`, local testing |
+| [references/core/queues.mdx](references/core/queues.mdx) | Cloudflare Queues, `env.QUEUE.send()`, producers/consumers, message payloads (direct/R2/KV), batch processing |
+| [references/core/cron.mdx](references/core/cron.mdx) | Cron Triggers, `triggers.crons`, `scheduled` handler, `ScheduledController`, local testing |
+| [references/core/env-vars.mdx](references/core/env-vars.mdx) | `.env`, `.dev.vars`, `wrangler types`, `wrangler secret put`, `cloudflare:workers`, staging/production config |
+| [references/core/hosting.mdx](references/core/hosting.mdx) | Deployment, `pnpm release`, `CLOUDFLARE_ENV`, custom domains, DNS, nameservers, Cloudflare dashboard |
 
-### Frontend Features
-- **[frontend.md](references/frontend.md)** - Client-side navigation, dark mode, layouts, metadata, styling, shadcn/ui
+### Guides - Frontend
+| File | Topics |
+|------|--------|
+| [references/guides/frontend/client-side-nav.mdx](references/guides/frontend/client-side-nav.mdx) | SPA navigation, `initClientNavigation`, `navigate`, prefetching, `x-prefetch`, Cache API, scroll behavior |
+| [references/guides/frontend/layouts.mdx](references/guides/frontend/layouts.mdx) | `layout()` function, `LayoutProps`, nested layouts, `prefix()`, `render()` composition |
+| [references/guides/frontend/documents.mdx](references/guides/frontend/documents.mdx) | Custom Document components, HTML structure, per-route documents, hydration |
+| [references/guides/frontend/error-handling.mdx](references/guides/frontend/error-handling.mdx) | `onUncaughtError`, `onCaughtError`, `except`, error boundaries, Sentry, React 19 error handling |
+| [references/guides/frontend/metadata.mdx](references/guides/frontend/metadata.mdx) | Meta tags, SEO, `<title>`, Open Graph, Twitter cards, React 19 metadata |
+| [references/guides/frontend/og-images.mdx](references/guides/frontend/og-images.mdx) | Dynamic OG images, `workers-og`, `ImageResponse`, social sharing |
+| [references/guides/frontend/dark-mode.mdx](references/guides/frontend/dark-mode.mdx) | Theme toggle, cookies, FOUC prevention, `prefers-color-scheme`, Tailwind `dark:` variant |
+| [references/guides/frontend/public-assets.mdx](references/guides/frontend/public-assets.mdx) | Static files, `public/` directory, images, fonts, favicon |
+| [references/guides/frontend/tailwind.mdx](references/guides/frontend/tailwind.mdx) | Tailwind CSS v4, `@tailwindcss/vite`, `@theme` block, `styles.css`, SSR environment stub |
+| [references/guides/frontend/shadcn.mdx](references/guides/frontend/shadcn.mdx) | shadcn/ui setup, `components.json`, Toaster/sonner workaround for server components |
+| [references/guides/frontend/chakra-ui.mdx](references/guides/frontend/chakra-ui.mdx) | Chakra UI v3, `ChakraProvider`, theming, `createSystem`, color mode, `next-themes` |
+| [references/guides/frontend/ark-ui.mdx](references/guides/frontend/ark-ui.mdx) | Ark UI headless components, state machines, accessibility, data attributes, Park UI |
+| [references/guides/frontend/storybook.mdx](references/guides/frontend/storybook.mdx) | Storybook setup, stories, mocking Prisma, `experimentalRSC`, component isolation |
 
-### Cloudflare Services
-- **[storage.md](references/storage.md)** - R2 object storage, file uploads/downloads
-- **[queues.md](references/queues.md)** - Background tasks, message queues
-- **[email.md](references/email.md)** - Sending/receiving email
-- **[cron.md](references/cron.md)** - Scheduled tasks, cron triggers
+### Guides - Backend & Tooling
+| File | Topics |
+|------|--------|
+| [references/guides/database/drizzle.mdx](references/guides/database/drizzle.mdx) | Drizzle ORM, Cloudflare D1, SQLite, schema, migrations, `drizzle-kit` |
+| [references/guides/email/1-sending-email.mdx](references/guides/email/1-sending-email.mdx) | Resend email service, API key setup, text/React/HTML emails |
+| [references/guides/email/2-email-templates.mdx](references/guides/email/2-email-templates.mdx) | React Email templates, `@react-email/components`, email preview, Tailwind in email |
+| [references/guides/rsc-streams.mdx](references/guides/rsc-streams.mdx) | Streaming responses, `ReadableStream`, `consumeEventStream`, SSE, Cloudflare AI chat |
+| [references/guides/vitest.mdx](references/guides/vitest.mdx) | Vitest integration tests, test bridge pattern, `handleVitestRequest`, `vitestInvoke` |
+| [references/guides/debugging.mdx](references/guides/debugging.mdx) | VS Code / Cursor debugging, `launch.json`, client/worker breakpoints |
+| [references/guides/troubleshooting.mdx](references/guides/troubleshooting.mdx) | RSC config errors, directive scan failures, `getRequestInfo()` outside request context, circular dependencies |
+| [references/guides/optimize/react-compiler.mdx](references/guides/optimize/react-compiler.mdx) | React Compiler, `babel-plugin-react-compiler`, automatic memoization, Vite config |
 
-### Real-time & State
-- **[realtime.md](references/realtime.md)** - WebSockets, Durable Objects, renderRealtimeClients
-- **[useSyncedState.md](references/useSyncedState.md)** - Bidirectional state sync across clients
+### Experimental Features
+| File | Topics |
+|------|--------|
+| [references/experimental/authentication.mdx](references/experimental/authentication.mdx) | Passkey addon, WebAuthn, passwordless auth, biometric login, `npx rwsdk addon passkey` |
+| [references/experimental/database.mdx](references/experimental/database.mdx) | SQLite Durable Objects, Kysely query builder, `createDb`, migrations, CRUD, `SqliteDurableObject` |
+| [references/experimental/realtime.mdx](references/experimental/realtime.mdx) | `useSyncedState`, real-time bidirectional state, rooms, `SyncedStateServer`, persistence |
 
-### Security & Deployment
-- **[authentication.md](references/authentication.md)** - Passkeys, session management
-- **[security.md](references/security.md)** - Security headers, CSP, nonces
-- **[env-vars.md](references/env-vars.md)** - Environment variables and secrets
-- **[hosting.md](references/hosting.md)** - Cloudflare deployment, custom domains
+### Legacy
+| File | Topics |
+|------|--------|
+| [references/legacy/realtime.mdx](references/legacy/realtime.mdx) | Deprecated realtime API, `initRealtimeClient`, `realtimeRoute`, `renderRealtimeClients` |
 
-### Advanced Topics
-- **[advanced-guides.md](references/advanced-guides.md)** - Debugging, streaming responses, troubleshooting
+### API Reference
+| File | Topics |
+|------|--------|
+| [references/reference/create-rwsdk.mdx](references/reference/create-rwsdk.mdx) | `create-rwsdk` CLI, `--force`, `--release`, `--pre` flags, project scaffolding |
+| [references/reference/sdk-client.mdx](references/reference/sdk-client.mdx) | `initClient`, `initClientNavigation`, `navigate`, hydration, React 19 error options |
+| [references/reference/sdk-router.mdx](references/reference/sdk-router.mdx) | `route`, `prefix`, `render`, `except`, `ErrorResponse`, method routing, SSR/RSC options, error bubbling |
+| [references/reference/sdk-worker.mdx](references/reference/sdk-worker.mdx) | `defineApp`, `ErrorResponse`, `requestInfo`, middleware, `ctx`, global error handling, `waitUntil` |
 
-## Best Practices
+## Topic Quick-Lookup
 
-### Architecture Principles
+Use this to find the right file for common questions:
 
-1. **Keep it simple** - Avoid over-engineering and unnecessary abstractions
-2. **Server-first** - Default to server components, use `"use client"` only when needed
-3. **Use native APIs** - Prefer Web APIs over external dependencies
-4. **Co-locate code** - Group related features in folders with `routes.ts` files
-5. **Edge-optimized** - Leverage Cloudflare's edge network for low latency
-
-### Key Patterns
-
-**Route organization**: Group by feature in `src/app/pages/<feature>/routes.ts`, import with `prefix()`.
-
-**Database**: Always use `getDbClient()` for request-scoped connections (never global `db`).
-
-**Caching**: Implement TTL-based caching to reduce DB/DO calls.
-
-**Security**: Set headers in middleware (see [security.md](references/security.md)), use passkeys for auth.
-
-**Real-time**: Call `refreshCacheAndSyncClients()` after mutations for atomic updates.
-
-**Migrations**: Test locally (`migrate:dev`), then production (`migrate:prd`).
-
-## Critical Requirements
-
-### React Canary (RSC Support)
-
-RedwoodSDK requires React canary releases for Server Components:
-
-```json
-{
-  "react": "19.3.0-canary-d2908752-20260119",
-  "react-dom": "19.3.0-canary-d2908752-20260119",
-  "react-server-dom-webpack": "19.3.0-canary-d2908752-20260119"
-}
-```
-
-**Never** use stable React versions - RSC will break.
-
-### Database Client Pattern
-
-**Always** use request-scoped database clients:
-
-```tsx
-// ✅ Correct
-const db = getDbClient();
-
-// ❌ Wrong - global client
-import { db } from "@/db";
-```
-
-### Generate Types After Config Changes
-
-After editing `wrangler.jsonc` or `schema.prisma`:
-
-```bash
-npm run generate
-# or
-npx wrangler types
-```
-
-## Troubleshooting
-
-### Quick Fixes
-
-**Database issues**: Use `getDbClient()`, check `wrangler.jsonc` bindings, apply migrations.
-
-**Real-time not working**: Verify `initRealtimeClient()` called, check WebSocket in DevTools, call `renderRealtimeClients()` after mutations.
-
-**RSC errors**: Verify React canary versions, add `"use client"` / `"use server"` directives correctly.
-
-**Build/dev errors**: Clear cache (`rm -rf node_modules/.vite`), regenerate types (`npm run generate`).
-
-### Debug Commands
-
-```bash
-VERBOSE=1 npm run dev          # Verbose logging
-npx wrangler tail              # View worker logs
-npm run types                  # Check TypeScript
-rm -rf node_modules/.vite      # Clear cache
-```
-
-For detailed troubleshooting including RSC configuration errors, directive scan failures, and request context issues, see [advanced-guides.md](references/advanced-guides.md).
-
-## When to Read Reference Files
-
-Load reference documentation as needed for specific features:
-
-- **Getting started?** → Read [quick-start.md](references/quick-start.md)
-- **API questions?** → Read [api-reference.md](references/api-reference.md)
-- **Upgrading from 0.x?** → Read [migrating.md](references/migrating.md)
-- **Building routes?** → Read [routing.md](references/routing.md)
-- **Frontend features?** → Read [frontend.md](references/frontend.md)
-- **Adding database?** → Read [database.md](references/database.md)
-- **Need auth?** → Read [authentication.md](references/authentication.md)
-- **Real-time features?** → Read [realtime.md](references/realtime.md) or [useSyncedState.md](references/useSyncedState.md)
-- **Background jobs?** → Read [queues.md](references/queues.md)
-- **Scheduled tasks?** → Read [cron.md](references/cron.md)
-- **Email handling?** → Read [email.md](references/email.md)
-- **File storage?** → Read [storage.md](references/storage.md)
-- **Security headers?** → Read [security.md](references/security.md)
-- **Deploying?** → Read [hosting.md](references/hosting.md)
-- **Environment vars?** → Read [env-vars.md](references/env-vars.md)
-- **Debugging or troubleshooting?** → Read [advanced-guides.md](references/advanced-guides.md)
-
-## Summary
-
-This skill provides expert assistance for RedwoodSDK development using **progressive disclosure**:
-
-- **Start here** for overview, quick start, and core concepts
-- **Reference files** provide detailed documentation for specific features
-- **Use the guide above** to find the right reference file for your task
-
-The skill automatically reads reference files when needed, so you don't need to request them explicitly.
-
-## Resources
-
-- **RedwoodSDK Docs**: https://redwoodsdk.com/
-- **Cloudflare Workers**: https://developers.cloudflare.com/workers/
-- **React Server Components**: https://react.dev/reference/rsc/server-components
-- **Starter Template**: https://github.com/redwoodjs/sdk/tree/main/starter
+- **Project setup / new project** -> `getting-started/quick-start.mdx`
+- **Routing, middleware, defineApp** -> `core/routing.mdx` or `reference/sdk-router.mdx`
+- **Server components, "use client", "use server"** -> `core/react-server-components.mdx`
+- **Server functions, serverQuery, serverAction** -> `core/react-server-components.mdx`
+- **Authentication, sessions, login** -> `core/authentication.mdx` + `experimental/authentication.mdx`
+- **Database, D1, Drizzle, SQL** -> `guides/database/drizzle.mdx` + `experimental/database.mdx`
+- **File upload/download, R2 storage** -> `core/storage.mdx`
+- **Email, sending/receiving** -> `core/email.mdx` + `guides/email/*.mdx`
+- **Background jobs, queues** -> `core/queues.mdx`
+- **Scheduled tasks, cron** -> `core/cron.mdx`
+- **Environment variables, secrets** -> `core/env-vars.mdx`
+- **Deployment, hosting, domains** -> `core/hosting.mdx`
+- **Security headers, CSP** -> `core/security.mdx`
+- **Client navigation, SPA behavior** -> `guides/frontend/client-side-nav.mdx`
+- **Layouts, shared UI** -> `guides/frontend/layouts.mdx`
+- **Error handling** -> `guides/frontend/error-handling.mdx` + `reference/sdk-router.mdx`
+- **SEO, meta tags, OG images** -> `guides/frontend/metadata.mdx` + `guides/frontend/og-images.mdx`
+- **Dark mode, theming** -> `guides/frontend/dark-mode.mdx`
+- **Tailwind CSS** -> `guides/frontend/tailwind.mdx`
+- **shadcn/ui** -> `guides/frontend/shadcn.mdx`
+- **Streaming, SSE, AI responses** -> `guides/rsc-streams.mdx`
+- **Testing, Vitest** -> `guides/vitest.mdx`
+- **Debugging** -> `guides/debugging.mdx`
+- **Troubleshooting errors** -> `guides/troubleshooting.mdx`
+- **Realtime, WebSockets, synced state** -> `experimental/realtime.mdx`
+- **Migration from 0.x** -> `migrating.mdx`
+- **API reference (client)** -> `reference/sdk-client.mdx`
+- **API reference (router)** -> `reference/sdk-router.mdx`
+- **API reference (worker)** -> `reference/sdk-worker.mdx`
