@@ -1,6 +1,6 @@
 # RedwoodSDK Toolkit
 
-A Claude Code plugin for building full-stack apps with [RedwoodSDK](https://github.com/redwoodjs/sdk) — React Server Components on Cloudflare Workers.
+A Claude Code plugin for building full-stack apps with [RedwoodSDK](https://rwsdk.com) — React Server Components on Cloudflare Workers.
 
 ## Installation
 
