@@ -10,18 +10,18 @@ Install via the Claude Code plugin menu:
 /plugin install https://github.com/softee-p/redwoodSDK-toolkit
 ```
 
-This installs the `rwsdk-toolkit` plugin, which gives you 6 slash commands and 5 skills.
+This installs the `rwsdk` plugin, which gives you 6 slash commands and 5 skills.
 
 ## Slash Commands
 
 | Command | What it does |
 |---------|-------------|
-| `/rwsdk-toolkit:rwsdk-lookup <topic>` | Look up RedwoodSDK documentation for a specific topic |
-| `/rwsdk-toolkit:rwsdk-new <what-to-create>` | Scaffold a new project or add a route, page, or component |
-| `/rwsdk-toolkit:rwsdk-fix-frontend <issue>` | Diagnose and fix frontend layout/styling issues (4-phase workflow) |
-| `/rwsdk-toolkit:rwsdk-update-components [components...]` | Safely update or add shadcn/ui components with backup/restore |
-| `/rwsdk-toolkit:rwsdk-audit [worker-name]` | Audit a deployed RedwoodSDK app for errors and performance issues |
-| `/rwsdk-toolkit:rwsdk-update-docs` | Sync the `rwsdk-docs` skill with the latest official docs |
+| `/rwsdk:docs <topic>` | Look up RedwoodSDK documentation for a specific topic |
+| `/rwsdk:new <what-to-create>` | Scaffold a new project or add a route, page, or component |
+| `/rwsdk:fix <issue>` | Diagnose and fix frontend layout/styling issues (4-phase workflow) |
+| `/rwsdk:components [component-names...]` | Safely update or add shadcn/ui components with backup/restore |
+| `/rwsdk:audit [worker-name]` | Audit a deployed RedwoodSDK app for errors and performance issues |
+| `/rwsdk:sync` | Sync the `rwsdk-docs` skill with the latest official docs |
 
 ## Skills
 
