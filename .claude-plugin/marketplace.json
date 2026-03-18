@@ -1,0 +1,35 @@
+{
+  "name": "redwoodsdk-toolkit",
+  "owner": {
+    "name": "softee-p",
+    "email": "softee-p@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "Claude Code plugins for RedwoodSDK development, plugin creation, and skill authoring",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "rwsdk-toolkit",
+      "source": "./plugins/rwsdk-toolkit",
+      "description": "Comprehensive RedwoodSDK development toolkit — documentation lookup, frontend debugging, shadcn/ui management, production auditing, and doc sync. Includes 5 skills and 6 slash commands for building full-stack React Server Component apps on Cloudflare Workers.",
+      "version": "1.0.0",
+      "category": "frameworks",
+      "tags": ["redwoodsdk", "rwsdk", "cloudflare-workers", "rsc", "fullstack"]
+    },
+    {
+      "name": "plugin-dev",
+      "source": "./plugins/plugin-dev",
+      "description": "Plugin development toolkit with skills for creating agents, commands, hooks, MCP integrations, and comprehensive plugin structure guidance.",
+      "category": "development",
+      "tags": ["plugin-dev", "skills", "agents", "hooks", "commands"]
+    },
+    {
+      "name": "skill-creator",
+      "source": "./plugins/skill-creator",
+      "description": "Create new skills, improve existing skills, and measure skill performance with evals, benchmarks, and description optimization.",
+      "category": "development",
+      "tags": ["skills", "evals", "benchmarks", "authoring"]
+    }
+  ]
+}
