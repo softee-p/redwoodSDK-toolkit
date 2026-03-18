@@ -1,0 +1,21 @@
+{
+  "name": "redwoodsdk-toolkit",
+  "owner": {
+    "name": "softee-p",
+    "email": "softee-p@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "Claude Code plugin for RedwoodSDK development on Cloudflare Workers",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "rwsdk-toolkit",
+      "source": "./plugins/rwsdk-toolkit",
+      "description": "Comprehensive RedwoodSDK development toolkit — documentation lookup, frontend debugging, shadcn/ui management, production auditing, and doc sync. Includes 5 skills and 6 slash commands for building full-stack React Server Component apps on Cloudflare Workers.",
+      "version": "1.0.0",
+      "category": "frameworks",
+      "tags": ["redwoodsdk", "rwsdk", "cloudflare-workers", "rsc", "fullstack"]
+    }
+  ]
+}
