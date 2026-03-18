@@ -17,7 +17,7 @@ This installs the `rwsdk` plugin: 6 slash commands + 5 skills.
 
 ## How It Works
 
-**Skills** auto-load based on keywords in your conversation — no invocation needed. When you mention `defineApp`, shadcn components, production errors, etc., the relevant skill activates and gives Claude the documentation and workflows to answer correctly.
+**Skills** auto-load based on what you're working on — no invocation needed. When you ask about routing, styling, components, or production issues, the relevant skill activates and gives Claude the documentation and workflows to answer correctly.
 
 **Slash Commands** are explicit multi-step workflows (`/rwsdk:new`, `/rwsdk:audit`, etc.) that you invoke when you want a structured task executed from start to finish.
 
