@@ -26,7 +26,7 @@ Read the relevant reference file(s) based on the user's question. All reference 
 | File | Topics |
 |------|--------|
 | [references/core/overview.mdx](references/core/overview.mdx) | Table of contents for all core docs, overview video |
-| [references/core/routing.mdx](references/core/routing.mdx) | `defineApp`, `route`, middleware, `ctx`, interrupters, static/parameter/wildcard routes, HTTP methods, `render()`, `requestInfo`, `getRequestInfo()`, `linkFor`, prefetch |
+| [references/core/routing.mdx](references/core/routing.mdx) | `defineApp`, `route`, middleware, `ctx`, interrupters, static/parameter/wildcard routes, query parameters, `searchParams`, HTTP methods, `render()`, `requestInfo`, `getRequestInfo()`, `linkFor`, prefetch |
 | [references/core/react-server-components.mdx](references/core/react-server-components.mdx) | RSC, `"use client"`, `"use server"`, `serverQuery`, `serverAction`, Suspense, streaming, `renderToStream`, `renderToString`, `onActionResponse` |
 | [references/core/authentication.mdx](references/core/authentication.mdx) | Session management, `defineDurableSession`, Durable Objects, passkey addon, cookies, `sessionStore`, middleware auth, `ErrorResponse` |
 | [references/core/security.mdx](references/core/security.mdx) | CSP, nonce (`rw.nonce`), X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, `setCommonHeaders` |
@@ -60,6 +60,7 @@ Read the relevant reference file(s) based on the user's question. All reference 
 | [references/guides/database/drizzle.mdx](references/guides/database/drizzle.mdx) | Drizzle ORM, Cloudflare D1, SQLite, schema, migrations, `drizzle-kit` |
 | [references/guides/email/1-sending-email.mdx](references/guides/email/1-sending-email.mdx) | Resend email service, API key setup, text/React/HTML emails |
 | [references/guides/email/2-email-templates.mdx](references/guides/email/2-email-templates.mdx) | React Email templates, `@react-email/components`, email preview, Tailwind in email |
+| [references/guides/build-with-ai.mdx](references/guides/build-with-ai.mdx) | AI-powered development, `llms.txt`, `llms-full.txt`, AI context files, zero magic, `create-rwsdk`, RSC tips, Cloudflare runtime |
 | [references/guides/rsc-streams.mdx](references/guides/rsc-streams.mdx) | Streaming responses, `ReadableStream`, `consumeEventStream`, SSE, Cloudflare AI chat |
 | [references/guides/vitest.mdx](references/guides/vitest.mdx) | Vitest integration tests, test bridge pattern, `handleVitestRequest`, `vitestInvoke` |
 | [references/guides/debugging.mdx](references/guides/debugging.mdx) | VS Code / Cursor debugging, `launch.json`, client/worker breakpoints |
@@ -115,6 +116,8 @@ Use this to find the right file for common questions:
 - **Debugging** -> `guides/debugging.mdx`
 - **Troubleshooting errors** -> `guides/troubleshooting.mdx`
 - **Realtime, WebSockets, synced state** -> `experimental/realtime.mdx`
+- **Query parameters, searchParams** -> `core/routing.mdx`
+- **Building with AI, llms.txt** -> `guides/build-with-ai.mdx`
 - **Migration from 0.x** -> `migrating.mdx`
 - **API reference (client)** -> `reference/sdk-client.mdx`
 - **API reference (router)** -> `reference/sdk-router.mdx`
