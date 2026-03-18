@@ -1,5 +1,5 @@
 {
-  "name": "rwsdk-toolkit",
+  "name": "rwsdk",
   "version": "1.0.0",
   "description": "Comprehensive RedwoodSDK development toolkit for Claude Code. Provides skills for building full-stack React Server Component applications on Cloudflare Workers — covering documentation lookup, frontend development, component management, production auditing, and documentation maintenance.",
   "author": {

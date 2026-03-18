@@ -10,7 +10,7 @@
   },
   "plugins": [
     {
-      "name": "rwsdk-toolkit",
+      "name": "rwsdk",
       "source": "./plugins/rwsdk-toolkit",
       "description": "Comprehensive RedwoodSDK development toolkit — documentation lookup, frontend debugging, shadcn/ui management, production auditing, and doc sync. Includes 5 skills and 6 slash commands for building full-stack React Server Component apps on Cloudflare Workers.",
       "version": "1.0.0",
