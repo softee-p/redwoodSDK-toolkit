@@ -4,9 +4,12 @@ A Claude Code plugin for building full-stack apps with [RedwoodSDK](https://rwsd
 
 ## Installation
 
+**Option 1 — Command:**
 ```
 /plugin install https://github.com/softee-p/redwoodSDK-toolkit
 ```
+
+**Option 2 — UI:** Run `/plugins` in Claude Code, go to **Add → Marketplace**, and paste the GitHub URL.
 
 This installs the `rwsdk` plugin: 6 slash commands + 5 skills.
 
