@@ -1,18 +1,19 @@
 # RedwoodSDK Toolkit
 
-A collection of Claude Code skills and AI tooling for building apps with RedwoodSDK.
+Claude Code skills for building apps with [RedwoodSDK](https://github.com/redwoodjs/sdk).
 
+## Skills
 
-- **skills/** - Claude Code skills for RedwoodSDK development
-- **docs/** - Local copy of RedwoodSDK documentation
+| Skill | What it does |
+|-------|-------------|
+| `rwsdk-docs` | Full RedwoodSDK docs reference with topic index and changelog |
+| `rwsdk-frontend` | Frontend patterns — layouts, dark mode, shadcn, Tailwind |
+| `rwsdk-shadcn-update` | Keep shadcn/ui components up to date |
+| `rwsdk-audit-deployed` | Audit a deployed RedwoodSDK app |
+| `update-rwsdk-docs` | Pull latest docs from the official repo into `rwsdk-docs` |
 
-## Using the skills
+## Setup
 
-Copy the skills you want into your project's `.claude/skills/` folder, or point to them in your Claude settings.
+Copy the skills you need into your project's `.claude/skills/` directory, or reference them in your Claude Code settings.
 
-Each skill has its own README/SKILL.md with usage details.
-
-
--- Skill creator prompt
-
-Create a skill with the skill-creator skill named rwsdk-docs to be used by agents to get context from the official redwoodsdk docs.  There is a script @docs/scripts/update-docs.sh that pulls the most recent version of the docs from github and to be pulled  as markdown files into the docs/redwoodsdk-official folder with their original directory structure. I want to copy the whole contents of the redwoodsdk-official folder into the references folder of the skill and then go over all of the docs to create the index you will put into SKILL.md . Ultrathink.
+Each skill has a `SKILL.md` with usage details.
