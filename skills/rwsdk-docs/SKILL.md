@@ -13,6 +13,8 @@ Read the relevant reference file(s) based on the user's question. All reference 
 
 **Lookup strategy:** Match the user's question to the closest topic in the index below, then read that file. For broad questions, start with `core/overview.mdx` or `core/routing.mdx`.
 
+**Updating existing projects:** When working on a project that may have been built with an older version of RedwoodSDK or this skill, read [CHANGELOG.md](CHANGELOG.md) first. It lists breaking changes, deprecated patterns, and migration steps ordered newest-first. Apply any relevant updates to the project's code.
+
 ## Documentation Index
 
 ### Getting Started
