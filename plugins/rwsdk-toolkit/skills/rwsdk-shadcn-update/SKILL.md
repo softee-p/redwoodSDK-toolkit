@@ -153,7 +153,7 @@ Standard Components (safe to update):
 - [List of components]
 ```
 
-**Document findings** in `references/customizations.md` (create if doesn't exist).
+**Document findings** in `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md` (create if doesn't exist).
 
 ---
 
@@ -315,7 +315,7 @@ $PKG_MGR run dev
 
 **5. Document if customized:**
 
-If you add customizations, update `references/customizations.md` with:
+If you add customizations, update `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md` with:
 - Component name
 - Type (custom/modified/standard)
 - Description of customizations
@@ -465,7 +465,7 @@ grep -r "from \"@/app/components/ui" src/ --include="*.tsx" --include="*.ts"
 1. **Use MCP server** when available for better reliability
 2. **Verify RSC compliance** - Default to server components
 3. **Test incrementally** - Don't update all components at once
-4. **Document customizations** - Update `references/customizations.md`
+4. **Document customizations** - Update `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md`
 
 ### After Component Operations
 
@@ -509,8 +509,8 @@ All scripts located in `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/scripts
 ## Additional Resources
 
 **In this skill:**
-- **[customizations.md](references/customizations.md)** - Template for documenting component customizations
-- **[README.md](README.md)** - How this skill works and how to share it
+- **[customizations.md](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/references/customizations.md)** - Template for documenting component customizations
+- **[README.md](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-shadcn-update/README.md)** - How this skill works and how to share it
 
 **External resources (use `rwsdk-docs` skill):**
 - RedwoodSDK shadcn/ui guide
