@@ -25,7 +25,7 @@ Identify the absolute path to the `claude-skills-priv` repository root. All path
 Run the bundled update script:
 
 ```bash
-bash <skill-path>/scripts/update-rwsdk-docs.sh <repo-root>
+bash ${CLAUDE_PLUGIN_ROOT}/skills/update-rwsdk-docs/scripts/update-rwsdk-docs.sh <repo-root>
 ```
 
 This script:

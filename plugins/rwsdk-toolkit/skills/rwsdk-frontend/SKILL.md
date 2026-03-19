@@ -37,15 +37,15 @@ Load the `rwsdk-docs` skill to get RedwoodSDK-specific knowledge:
 - RSC hydration considerations for styling
 - Server vs client component styling differences
 
-### 1.2 Use tailwind-v4-shadcn Skill
+### 1.2 Tailwind v4 & Styling Context
 
-Load the `tailwind-v4-shadcn` skill to get Tailwind v4 best practices:
+The `rwsdk-docs` skill also covers Tailwind v4 styling patterns. When reviewing styling issues, pay attention to:
 - @theme inline pattern and CSS variable architecture
 - Dark mode configuration
-- Common Tailwind v4 errors to avoid
-- shadcn/ui integration patterns
+- Common Tailwind v4 errors to avoid (e.g., legacy `@apply` misuse, missing `@import "tailwindcss"`)
+- shadcn/ui integration patterns (CSS variables, `cn()` utility)
 
-**CRITICAL:** After getting Tailwind v4 knowledge, cross-reference with rwsdk-docs to ensure compatibility with RSC architecture.
+**CRITICAL:** Cross-reference Tailwind v4 patterns with RSC architecture constraints from rwsdk-docs.
 
 ### 1.3 Explore the Codebase
 
@@ -89,21 +89,20 @@ Create a detailed list of observed problems:
 
 With visual evidence and gathered context, design the fix.
 
-### 3.1 Use frontend-design Skill
+### 3.1 Frontend Design Guidance
 
-Load the `frontend-design` skill for expert frontend guidance:
-- Mobile-first responsive design patterns
-- Tailwind utility combinations for the observed issues
-- Component architecture improvements
-- Accessibility considerations
+Apply these frontend best practices when designing the fix:
+- **Mobile-first responsive design**: Start with mobile styles, add `sm:`, `md:`, `lg:` breakpoints for larger screens
+- **Tailwind utility combinations**: Use `flex`, `grid`, `gap`, `min-w-0`, `overflow-hidden` to fix common layout issues
+- **Component architecture**: Keep layout concerns in wrapper components, style concerns in leaf components
+- **Accessibility**: Ensure interactive elements have visible focus states, sufficient contrast, and proper ARIA attributes
 
 ### 3.2 Create Implementation Plan
 
 Design the solution based on:
 - Visual testing results (what's actually broken)
-- rwsdk-docs knowledge (RSC constraints)
-- tailwind-v4-shadcn knowledge (Tailwind v4 patterns)
-- frontend-design guidance (best practices)
+- rwsdk-docs knowledge (RSC constraints and Tailwind v4 patterns)
+- Frontend design best practices (see 3.1 above)
 
 The plan should specify:
 - Which files to modify
@@ -133,11 +132,10 @@ Ensure changes don't break layouts at other viewport sizes.
 
 ## Critical Rules
 
-**DO NOT skip any skill mentioned above:**
-- rwsdk-docs (RSC context)
-- tailwind-v4-shadcn (Tailwind v4 patterns)
+**DO NOT skip these steps:**
+- rwsdk-docs (RSC context and Tailwind v4 patterns)
 - browser-use (visual testing before and after)
-- frontend-design (design guidance)
+- Frontend design guidance (mobile-first, accessibility)
 
 **DO NOT just explore code without using the skills:**
 - Skills provide specialized knowledge Claude doesn't have by default
@@ -152,14 +150,13 @@ Ensure changes don't break layouts at other viewport sizes.
 User: "Fix mobile layout issues on my dashboard"
 
 Correct approach:
-1. Use rwsdk-docs skill → understand RSC styling constraints
-2. Use tailwind-v4-shadcn skill → learn Tailwind v4 patterns
-3. Use Explore agents → find layout/styling files
-4. Use browser-use skill → visually inspect mobile layout
-5. Document: "Input fields compressed at 375px width, header text overlaps at 390px, page scrolls horizontally showing white space"
-6. Use frontend-design skill → get mobile layout fix guidance
-7. Create plan: "Update Header.tsx with flex-wrap, fix Input component min-width, add overflow-x-hidden to layout"
-8. Include browser-use re-test in plan
+1. Use rwsdk-docs skill → understand RSC styling constraints and Tailwind v4 patterns
+2. Use Explore agents → find layout/styling files
+3. Use browser-use skill → visually inspect mobile layout
+4. Document: "Input fields compressed at 375px width, header text overlaps at 390px, page scrolls horizontally showing white space"
+5. Apply frontend design guidance → mobile-first layout fixes
+6. Create plan: "Update Header.tsx with flex-wrap, fix Input component min-width, add overflow-x-hidden to layout"
+7. Include browser-use re-test in plan
 
 Incorrect approach:
 - ❌ Skip visual testing and guess problems from code
