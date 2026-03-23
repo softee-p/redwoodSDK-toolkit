@@ -32,27 +32,27 @@ Read the relevant reference file(s) based on the user's question. All reference 
 |------|--------|
 | [references/index.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/index.mdx) | Introduction, design principles (zero magic, composability, web-first), what RedwoodSDK is |
 | [references/getting-started/quick-start.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/getting-started/quick-start.mdx) | Project setup, `create-rwsdk`, `pnpm dev`, `pnpm release`, first route, deployment |
-| [references/migrating.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/migrating.mdx) | Upgrading 0.x to 1.x, breaking changes, `isAction`, `resolveSSRValue` removal, passkey addon migration |
+| [references/migrating.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/migrating.mdx) | Upgrading 0.x to 1.x, breaking changes, peerDependencies migration, `compatibility_date` update, `requestInfo.response.headers` change, `isAction` flag, `resolveSSRValue` removal, D1/Prisma to SQLite DO passkey migration |
 
 ### Core Concepts
 | File | Topics |
 |------|--------|
 | [references/core/overview.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/overview.mdx) | Table of contents for all core docs, overview video |
-| [references/core/routing.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/routing.mdx) | `defineApp`, `route`, middleware, `ctx`, interrupters, static/parameter/wildcard routes, query parameters, `searchParams`, HTTP methods, `render()`, `requestInfo`, `getRequestInfo()`, `linkFor`, prefetch |
-| [references/core/react-server-components.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/react-server-components.mdx) | RSC, `"use client"`, `"use server"`, `serverQuery`, `serverAction`, Suspense, streaming, `renderToStream`, `renderToString`, `onActionResponse` |
+| [references/core/routing.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/routing.mdx) | `defineApp`, `route`, middleware, `ctx`, interrupters, static/parameter/wildcard routes, query parameters, `searchParams`, HTTP methods, `custom` methods, `config.disableOptions`/`config.disable405`, explicit HEAD handling, `render()`, `requestInfo`, `getRequestInfo()`, `DefaultAppContext` type extension, `linkFor`, prefetch, generation-based cache eviction |
+| [references/core/react-server-components.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/react-server-components.mdx) | RSC, `"use client"`, `"use server"`, `serverQuery`, `serverAction`, middleware arrays, `x-rsc-data-only` header, Response returns (redirects), Suspense, streaming, `renderToStream`, `renderToString`, `onActionResponse` |
 | [references/core/authentication.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/authentication.mdx) | Session management, `defineDurableSession`, Durable Objects, passkey addon, cookies, `sessionStore`, middleware auth, `ErrorResponse` |
-| [references/core/security.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/security.mdx) | CSP, nonce (`rw.nonce`), X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, `setCommonHeaders` |
+| [references/core/security.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/security.mdx) | CSP, nonce (`rw.nonce`), `RouteMiddleware` type, `img-src` directive, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, `setCommonHeaders`, `response.headers` |
 | [references/core/storage.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/storage.mdx) | R2 object storage, file upload/download, streaming, `r2_buckets` binding |
-| [references/core/email.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/email.mdx) | Cloudflare Email Workers, `send_email` binding, inbound/outbound email, `PostalMime`, `mimetext`, `message.reply()`, local testing |
+| [references/core/email.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/email.mdx) | Cloudflare Email Workers, `send_email` binding, inbound/outbound email, `PostalMime`, `mimetext`, `message.reply()`, `WorkerEntrypoint`, Email Service beta, local testing |
 | [references/core/queues.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/queues.mdx) | Cloudflare Queues, `env.QUEUE.send()`, producers/consumers, message payloads (direct/R2/KV), batch processing |
 | [references/core/cron.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/cron.mdx) | Cron Triggers, `triggers.crons`, `scheduled` handler, `ScheduledController`, local testing |
 | [references/core/env-vars.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/env-vars.mdx) | `.env`, `.dev.vars`, `wrangler types`, `wrangler secret put`, `cloudflare:workers`, staging/production config |
-| [references/core/hosting.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/hosting.mdx) | Deployment, `pnpm release`, `CLOUDFLARE_ENV`, custom domains, DNS, nameservers, Cloudflare dashboard |
+| [references/core/hosting.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/hosting.mdx) | Deployment, `pnpm release`, `CLOUDFLARE_ENV`, staging deployment workflow, `env.staging` config, custom domains, DNS, nameservers, Cloudflare dashboard |
 
 ### Guides - Frontend
 | File | Topics |
 |------|--------|
-| [references/guides/frontend/client-side-nav.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/client-side-nav.mdx) | SPA navigation, `initClientNavigation`, `navigate`, prefetching, `x-prefetch`, Cache API, scroll behavior |
+| [references/guides/frontend/client-side-nav.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/client-side-nav.mdx) | SPA navigation, `initClientNavigation`, `navigate`, View Transitions, `scrollBehavior`/`scrollToTop` options, `onNavigate` callback, `history: "replace"`, prefetching, `x-prefetch`, Cache API |
 | [references/guides/frontend/layouts.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/layouts.mdx) | `layout()` function, `LayoutProps`, nested layouts, `prefix()`, `render()` composition |
 | [references/guides/frontend/documents.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/documents.mdx) | Custom Document components, HTML structure, per-route documents, hydration |
 | [references/guides/frontend/error-handling.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/error-handling.mdx) | `onUncaughtError`, `onCaughtError`, `except`, error boundaries, Sentry, React 19 error handling |
@@ -64,7 +64,7 @@ Read the relevant reference file(s) based on the user's question. All reference 
 | [references/guides/frontend/shadcn.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/shadcn.mdx) | shadcn/ui setup, `components.json`, Toaster/sonner workaround for server components |
 | [references/guides/frontend/chakra-ui.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/chakra-ui.mdx) | Chakra UI v3, `ChakraProvider`, theming, `createSystem`, color mode, `next-themes` |
 | [references/guides/frontend/ark-ui.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/ark-ui.mdx) | Ark UI headless components, state machines, accessibility, data attributes, Park UI |
-| [references/guides/frontend/storybook.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/storybook.mdx) | Storybook setup, stories, mocking Prisma, `experimentalRSC`, component isolation |
+| [references/guides/frontend/storybook.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/storybook.mdx) | Storybook setup, stories, `RequestInfo` type, component isolation |
 
 ### Guides - Backend & Tooling
 | File | Topics |
@@ -74,17 +74,17 @@ Read the relevant reference file(s) based on the user's question. All reference 
 | [references/guides/email/2-email-templates.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/email/2-email-templates.mdx) | React Email templates, `@react-email/components`, email preview, Tailwind in email |
 | [references/guides/build-with-ai.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/build-with-ai.mdx) | AI-powered development, `llms.txt`, `llms-full.txt`, AI context files, zero magic, `create-rwsdk`, RSC tips, Cloudflare runtime |
 | [references/guides/rsc-streams.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/rsc-streams.mdx) | Streaming responses, `ReadableStream`, `consumeEventStream`, SSE, Cloudflare AI chat |
-| [references/guides/vitest.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/vitest.mdx) | Vitest integration tests, test bridge pattern, `handleVitestRequest`, `vitestInvoke` |
+| [references/guides/vitest.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/vitest.mdx) | Vitest integration tests, `rwsdk-community/worker` package, test bridge pattern, `handleVitestRequest`, `vitestInvoke`, `vitest-pool-workers`, `defineWorkersConfig` |
 | [references/guides/debugging.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/debugging.mdx) | VS Code / Cursor debugging, `launch.json`, client/worker breakpoints |
-| [references/guides/troubleshooting.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/troubleshooting.mdx) | RSC config errors, directive scan failures, `getRequestInfo()` outside request context, circular dependencies |
-| [references/guides/optimize/react-compiler.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/optimize/react-compiler.mdx) | React Compiler, `babel-plugin-react-compiler`, automatic memoization, Vite config |
+| [references/guides/troubleshooting.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/troubleshooting.mdx) | RSC config errors, directive scan failures, export conditions (`react-server`/`default`), MDX compilation errors, file encoding issues, `VERBOSE=1` logging, `getRequestInfo()` outside request context, circular dependencies |
+| [references/guides/optimize/react-compiler.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/optimize/react-compiler.mdx) | React Compiler, `babel-plugin-react-compiler`, `@vitejs/plugin-react`, automatic memoization, Vite config, cache clearing, DevTools verification |
 
 ### Experimental Features
 | File | Topics |
 |------|--------|
 | [references/experimental/authentication.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/authentication.mdx) | Passkey addon, WebAuthn, passwordless auth, biometric login, `npx rwsdk addon passkey` |
-| [references/experimental/database.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/database.mdx) | SQLite Durable Objects, Kysely query builder, `createDb`, migrations, CRUD, `SqliteDurableObject` |
-| [references/experimental/realtime.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/realtime.mdx) | `useSyncedState`, real-time bidirectional state, rooms, `SyncedStateServer`, persistence |
+| [references/experimental/database.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/database.mdx) | SQLite Durable Objects, `rwsdk/db` module, Kysely query builder, `createDb`, migrations, type inference from migrations, `Migrations` type, rollback `down()` functions, CRUD, `SqliteDurableObject` |
+| [references/experimental/realtime.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/realtime.mdx) | `useSyncedState`, `rwsdk/use-synced-state/worker`/`client` imports, `syncedStateRoutes`, `SYNCED_STATE_SERVER` binding, real-time bidirectional state, rooms, in-memory persistence |
 
 ### Legacy
 | File | Topics |
@@ -95,9 +95,9 @@ Read the relevant reference file(s) based on the user's question. All reference 
 | File | Topics |
 |------|--------|
 | [references/reference/create-rwsdk.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/create-rwsdk.mdx) | `create-rwsdk` CLI, `--force`, `--release`, `--pre` flags, project scaffolding |
-| [references/reference/sdk-client.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-client.mdx) | `initClient`, `initClientNavigation`, `navigate`, hydration, React 19 error options |
-| [references/reference/sdk-router.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx) | `route`, `prefix`, `render`, `except`, `ErrorResponse`, method routing, SSR/RSC options, error bubbling |
-| [references/reference/sdk-worker.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-worker.mdx) | `defineApp`, `ErrorResponse`, `requestInfo`, middleware, `ctx`, global error handling, `waitUntil` |
+| [references/reference/sdk-client.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-client.mdx) | `initClient`, `transport` parameter, `initClientNavigation`, `ClientNavigationOptions`, `scrollToTop`/`scrollBehavior`/`onNavigate`, `navigate()` with `history`/scroll options, `onActionResponse`, `onRecoverableError`, hydration |
+| [references/reference/sdk-router.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx) | `route`, `prefix`, `render` with `rscPayload`/`ssr` options, `except` with JSX returns and error bubbling, `ErrorResponse`, `MethodHandlers` type, `config.disable405`/`config.disableOptions`, `custom` methods, explicit HEAD handling |
+| [references/reference/sdk-worker.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-worker.mdx) | `defineApp`, `app.fetch` pattern, `ErrorResponse`, `requestInfo` (`response`, `rw`, `cf` properties), middleware, `ctx`, `ctx.waitUntil()`, global error handling |
 
 ## Topic Quick-Lookup
 
@@ -128,6 +128,8 @@ Use this to find the right file for common questions:
 - **Debugging** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/debugging.mdx`
 - **Troubleshooting errors** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/troubleshooting.mdx`
 - **Realtime, WebSockets, synced state** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/realtime.mdx`
+- **View Transitions** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/frontend/client-side-nav.mdx`
+- **Custom HTTP methods, HEAD requests** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/routing.mdx` + `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx`
 - **Query parameters, searchParams** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/routing.mdx`
 - **Building with AI, llms.txt** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/build-with-ai.mdx`
 - **Migration from 0.x** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/migrating.mdx`
