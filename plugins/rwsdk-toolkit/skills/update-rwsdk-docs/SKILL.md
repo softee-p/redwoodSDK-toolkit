@@ -18,7 +18,7 @@ Refresh the `skills/rwsdk-docs/` skill with the latest official RedwoodSDK docum
 
 ### Step 1: Determine the repo root
 
-Identify the absolute path to the `claude-skills-priv` repository root. All paths below are relative to this root.
+Identify the absolute path to the repository root (the directory containing `plugins/`). All paths below are relative to this root.
 
 ### Step 2: Fetch latest docs
 
@@ -29,19 +29,19 @@ bash ${CLAUDE_PLUGIN_ROOT}/skills/update-rwsdk-docs/scripts/update-rwsdk-docs.sh
 ```
 
 This script:
-- Clears `skills/rwsdk-docs/references/`
+- Clears `plugins/rwsdk-toolkit/skills/rwsdk-docs/references/`
 - Shallow-clones the official RedwoodSDK repo
-- Copies `docs/src/content/docs/*` into `skills/rwsdk-docs/references/`
+- Copies `docs/src/content/docs/*` into `plugins/rwsdk-toolkit/skills/rwsdk-docs/references/`
 - Removes image folders (`images/`, `img/`, `assets/`) to save space
 
 Verify the script exits successfully and review the file listing it prints.
 
 ### Step 3: Rebuild the SKILL.md documentation index
 
-The `skills/rwsdk-docs/SKILL.md` contains a hand-maintained documentation index (tables mapping files to topics, plus a quick-lookup section). After updating the references, this index must be updated to match.
+The `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/SKILL.md` contains a hand-maintained documentation index (tables mapping files to topics, plus a quick-lookup section). After updating the references, this index must be updated to match.
 
-1. Read the current `skills/rwsdk-docs/SKILL.md` to understand the index format.
-2. List all `.mdx` and `.md` files now in `skills/rwsdk-docs/references/`.
+1. Read the current `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/SKILL.md` to understand the index format.
+2. List all `.mdx` and `.md` files now in `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/`.
 3. For each file, read it and extract the main topics covered.
 4. Rebuild the documentation index tables and topic quick-lookup in `SKILL.md`:
    - Preserve the existing structure and format (YAML frontmatter, intro paragraph, "How to Use This Skill" section, table format, quick-lookup format).

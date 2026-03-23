@@ -13,7 +13,7 @@ set -e
 #   4. Removes image folders (images, img, assets) to save space
 
 REPO_ROOT="${1:?Usage: update-rwsdk-docs.sh <repo-root>}"
-REFERENCES_DIR="$REPO_ROOT/skills/rwsdk-docs/references"
+REFERENCES_DIR="$REPO_ROOT/plugins/rwsdk-toolkit/skills/rwsdk-docs/references"
 SDK_REPO_URL="https://github.com/redwoodjs/sdk.git"
 REMOTE_DOCS_PATH="docs/src/content/docs"
 TEMP_DIR=$(mktemp -d)
