@@ -6,6 +6,112 @@ This changelog tracks breaking changes, new patterns, and deprecations in the of
 
 ---
 
+## 2026-03-23 — Docs sync: new APIs and updated patterns
+
+Synced all 44 reference files from the official RedwoodSDK repo. Key changes:
+
+### Routing: custom HTTP methods and HEAD handling
+
+`route()` method routing now supports a `custom` handler for non-standard HTTP methods (e.g., WebDAV), `config.disableOptions` and `config.disable405` options, and explicit HEAD request handling (HEAD is not auto-mapped from GET).
+
+**Pattern:**
+```tsx
+route("/resource", {
+  GET: () => new Response("OK"),
+  custom: (method) => new Response(`Handled ${method}`),
+  config: { disableOptions: true },
+});
+```
+
+### Routing: `DefaultAppContext` type extension
+
+Extend the app context type globally via `global.d.ts`:
+
+```tsx
+declare module "rwsdk" {
+  interface DefaultAppContext {
+    user?: User;
+  }
+}
+```
+
+### Client navigation: View Transitions and new options
+
+`initClientNavigation()` now accepts `scrollToTop`, `scrollBehavior`, and `onNavigate` options. `navigate()` accepts `history: "replace"` and per-call scroll config. View Transitions are supported via React 19.
+
+**Before:**
+```tsx
+initClientNavigation();
+```
+
+**After:**
+```tsx
+initClientNavigation({
+  scrollToTop: true,
+  scrollBehavior: "smooth",
+  onNavigate: (url) => analytics.track(url),
+});
+```
+
+### RSC: middleware arrays in serverQuery/serverAction
+
+`serverQuery` and `serverAction` now accept middleware arrays. The `x-rsc-data-only` header enables data-only fetches. Server functions can return `Response` objects for redirects.
+
+**Pattern:**
+```tsx
+const getData = serverQuery([authMiddleware], async () => {
+  return db.query(...);
+});
+```
+
+### Security: `response.headers` replaces `headers`
+
+Security middleware now uses `requestInfo.response.headers` instead of the old `headers` property.
+
+**Before:**
+```tsx
+(rw) => { rw.headers.set("X-Frame-Options", "DENY"); }
+```
+
+**After:**
+```tsx
+({ requestInfo }) => { requestInfo.response.headers.set("X-Frame-Options", "DENY"); }
+```
+
+### Vitest: `rwsdk-community/worker` package
+
+Test utilities moved from `rwsdk` to `rwsdk-community/worker`. Uses `vitest-pool-workers` and `defineWorkersConfig` from `@cloudflare/vitest-pool-workers/config`.
+
+**Before:**
+```tsx
+import { handleVitestRequest } from "rwsdk";
+```
+
+**After:**
+```tsx
+import { handleVitestRequest } from "rwsdk-community/worker";
+```
+
+### Experimental database: `rwsdk/db` module and migration rollbacks
+
+Import from `rwsdk/db` module. Migrations now support type inference (no code generation), `Migrations` type, and rollback via `down()` functions.
+
+### Experimental realtime: new import paths and helpers
+
+Import from `rwsdk/use-synced-state/worker` and `rwsdk/use-synced-state/client`. New `syncedStateRoutes` helper and `SYNCED_STATE_SERVER` binding. State is in-memory (wiped on eviction).
+
+### Storybook: simplified setup
+
+Storybook guide no longer references `experimentalRSC` or Prisma mocking. Uses `RequestInfo` type pattern instead.
+
+### Troubleshooting: new sections
+
+Added sections on export conditions (`react-server` vs `default`), MDX compilation errors, file encoding issues, and `VERBOSE=1 pnpm dev` for verbose logging.
+
+**Files to check:** Projects using any of the patterns listed above — especially `headers` → `response.headers`, `rwsdk` → `rwsdk-community/worker` for tests, and old `initClientNavigation()` calls without options.
+
+---
+
 ## 2026-02-17 — Document component: remove `<div id="root">` wrapper
 
 The Document component no longer wraps children in a `<div id="root">`. Children render directly inside `<body>`.
