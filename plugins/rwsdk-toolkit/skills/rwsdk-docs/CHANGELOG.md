@@ -6,6 +6,88 @@ This changelog tracks breaking changes, new patterns, and deprecations in the of
 
 ---
 
+## 2026-03-30 — Docs sync: expanded database, realtime, and error handling docs
+
+Synced all 44 reference files from the official RedwoodSDK repo. Key changes:
+
+### Email guide filenames renamed
+
+The email guide files were renamed upstream (content unchanged):
+- `guides/email/1-sending-email.mdx` -> `guides/email/sending-email.mdx`
+- `guides/email/2-email-templates.mdx` -> `guides/email/email-templates.mdx`
+
+**Files to check:** Any links or references to the old `1-sending-email.mdx` or `2-email-templates.mdx` filenames.
+
+### Experimental database: new Patterns, Seeding, API Reference, and FAQ sections
+
+`experimental/database.mdx` now includes:
+- **Patterns** section: Nesting relational data using Kysely's `jsonObjectFrom` and `jsonArrayFrom` helpers for ORM-like join behavior.
+- **Seeding Your Database** section: Using `rwsdk worker-run` to run seed scripts with access to Durable Object bindings.
+- **API Reference** section: Formal documentation for `createDb()`, `Database<T>` type, `Migrations` type, and `SqliteDurableObject` base class.
+- **FAQ** section: Covers why SQL over ORM, latency considerations, production readiness, backups, and auto-rollback rationale.
+
+**Pattern (database seeding):**
+```tsx
+// src/scripts/seed.ts
+import { db } from "@/db";
+export default async () => {
+  await db.insertInto("todos").values([...]).execute();
+};
+```
+```json
+// package.json
+{ "scripts": { "seed": "rwsdk worker-run ./src/scripts/seed.ts" } }
+```
+
+**Pattern (relational data):**
+```tsx
+import { jsonObjectFrom } from "kysely/helpers/sqlite";
+const posts = await db.selectFrom("posts").selectAll("posts")
+  .select((eb) => [
+    jsonObjectFrom(
+      eb.selectFrom("users").select(["id", "username"])
+        .whereRef("users.id", "=", "posts.userId")
+    ).as("author"),
+  ]).execute();
+```
+
+### Experimental realtime: advanced scoping and persistence
+
+`experimental/realtime.mdx` now includes a full "Advanced: Scoping and Persistence" section:
+- **Room IDs** (client-side): Pass a room ID as the third argument to `useSyncedState` for client-side state isolation.
+- **Key Handlers** (server-side): `SyncedStateServer.registerKeyHandler()` for server-enforced key scoping based on auth context.
+- **Room Transformation**: `SyncedStateServer.registerRoomHandler()` to transform room IDs server-side (e.g., "private" rooms scoped per user).
+- **Persisting State**: `registerSetStateHandler()` and `registerGetStateHandler()` for saving/loading state to/from a database.
+- **Future Plans**: Offline support (IndexedDB) and durable storage (DO SQLite persistence).
+
+### Router API reference: expanded `except` and error handling
+
+`reference/sdk-router.mdx` now includes comprehensive error handling documentation:
+- **`except`**: Expanded with JSX element returns, multiple handlers & nesting, error bubbling between handlers, what errors are caught (middleware, routes, RSC actions), and full type signature.
+- **Error Handling** section: `ErrorResponse` class usage, try-catch in route handlers, `except`-based error handling, server-side rendering errors, global error handling via `app.fetch` wrapping with `ctx.waitUntil()` for async monitoring (Sentry, DataDog), and unhandled error behavior.
+
+**Pattern (global error handling):**
+```tsx
+const app = defineApp([...]);
+export default {
+  fetch: async (request, env, ctx) => {
+    try {
+      return await app.fetch(request, env, ctx);
+    } catch (error) {
+      if (error instanceof ErrorResponse) {
+        return new Response(error.message, { status: error.code });
+      }
+      ctx.waitUntil(sendToMonitoring(error));
+      return new Response("Internal Server Error", { status: 500 });
+    }
+  },
+};
+```
+
+**Files to check:** Projects referencing the old email guide filenames. Projects using `rwsdk/db` should review the new seeding and patterns sections. Projects with realtime features should review the new scoping and persistence APIs.
+
+---
+
 ## 2026-03-23 — Docs sync: new APIs and updated patterns
 
 Synced all 44 reference files from the official RedwoodSDK repo. Key changes:

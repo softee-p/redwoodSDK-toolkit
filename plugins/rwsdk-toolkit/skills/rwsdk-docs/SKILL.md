@@ -70,8 +70,8 @@ Read the relevant reference file(s) based on the user's question. All reference 
 | File | Topics |
 |------|--------|
 | [references/guides/database/drizzle.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/database/drizzle.mdx) | Drizzle ORM, Cloudflare D1, SQLite, schema, migrations, `drizzle-kit` |
-| [references/guides/email/1-sending-email.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/email/1-sending-email.mdx) | Resend email service, API key setup, text/React/HTML emails |
-| [references/guides/email/2-email-templates.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/email/2-email-templates.mdx) | React Email templates, `@react-email/components`, email preview, Tailwind in email |
+| [references/guides/email/sending-email.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/email/sending-email.mdx) | Resend email service, API key setup, text/React/HTML emails |
+| [references/guides/email/email-templates.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/email/email-templates.mdx) | React Email templates, `@react-email/components`, email preview, Tailwind in email |
 | [references/guides/build-with-ai.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/build-with-ai.mdx) | AI-powered development, `llms.txt`, `llms-full.txt`, AI context files, zero magic, `create-rwsdk`, RSC tips, Cloudflare runtime |
 | [references/guides/rsc-streams.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/rsc-streams.mdx) | Streaming responses, `ReadableStream`, `consumeEventStream`, SSE, Cloudflare AI chat |
 | [references/guides/vitest.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/vitest.mdx) | Vitest integration tests, `rwsdk-community/worker` package, test bridge pattern, `handleVitestRequest`, `vitestInvoke`, `vitest-pool-workers`, `defineWorkersConfig` |
@@ -83,8 +83,8 @@ Read the relevant reference file(s) based on the user's question. All reference 
 | File | Topics |
 |------|--------|
 | [references/experimental/authentication.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/authentication.mdx) | Passkey addon, WebAuthn, passwordless auth, biometric login, `npx rwsdk addon passkey` |
-| [references/experimental/database.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/database.mdx) | SQLite Durable Objects, `rwsdk/db` module, Kysely query builder, `createDb`, migrations, type inference from migrations, `Migrations` type, rollback `down()` functions, CRUD, `SqliteDurableObject` |
-| [references/experimental/realtime.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/realtime.mdx) | `useSyncedState`, `rwsdk/use-synced-state/worker`/`client` imports, `syncedStateRoutes`, `SYNCED_STATE_SERVER` binding, real-time bidirectional state, rooms, in-memory persistence |
+| [references/experimental/database.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/database.mdx) | SQLite Durable Objects, `rwsdk/db` module, Kysely query builder, `createDb`, migrations, type inference from migrations, `Migrations` type, rollback `down()` functions, CRUD, `SqliteDurableObject`, nesting relational data (`jsonObjectFrom`/`jsonArrayFrom`), database seeding (`rwsdk worker-run`), API reference (`createDb()`, `Database<T>`, `Migrations`, `SqliteDurableObject`), FAQ |
+| [references/experimental/realtime.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/realtime.mdx) | `useSyncedState`, `rwsdk/use-synced-state/worker`/`client` imports, `syncedStateRoutes`, `SYNCED_STATE_SERVER` binding, real-time bidirectional state, rooms, in-memory persistence, advanced scoping (Room IDs, `registerKeyHandler`, `registerRoomHandler`), persisting state (`registerSetStateHandler`, `registerGetStateHandler`), future plans (offline support, durable storage) |
 
 ### Legacy
 | File | Topics |
@@ -96,7 +96,7 @@ Read the relevant reference file(s) based on the user's question. All reference 
 |------|--------|
 | [references/reference/create-rwsdk.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/create-rwsdk.mdx) | `create-rwsdk` CLI, `--force`, `--release`, `--pre` flags, project scaffolding |
 | [references/reference/sdk-client.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-client.mdx) | `initClient`, `transport` parameter, `initClientNavigation`, `ClientNavigationOptions`, `scrollToTop`/`scrollBehavior`/`onNavigate`, `navigate()` with `history`/scroll options, `onActionResponse`, `onRecoverableError`, hydration |
-| [references/reference/sdk-router.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx) | `route`, `prefix`, `render` with `rscPayload`/`ssr` options, `except` with JSX returns and error bubbling, `ErrorResponse`, `MethodHandlers` type, `config.disable405`/`config.disableOptions`, `custom` methods, explicit HEAD handling |
+| [references/reference/sdk-router.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx) | `route`, `prefix`, `render` with `rscPayload`/`ssr` options, `except` with JSX returns, multiple handlers & nesting, error bubbling, type signature, `ErrorResponse`, `MethodHandlers` type, `config.disable405`/`config.disableOptions`, `custom` methods, explicit HEAD handling, comprehensive error handling (try-catch, global `app.fetch` wrapping, `ctx.waitUntil()` for monitoring, unhandled errors) |
 | [references/reference/sdk-worker.mdx](${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-worker.mdx) | `defineApp`, `app.fetch` pattern, `ErrorResponse`, `requestInfo` (`response`, `rw`, `cf` properties), middleware, `ctx`, `ctx.waitUntil()`, global error handling |
 
 ## Topic Quick-Lookup
@@ -110,7 +110,7 @@ Use this to find the right file for common questions:
 - **Authentication, sessions, login** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/authentication.mdx` + `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/authentication.mdx`
 - **Database, D1, Drizzle, SQL** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/database/drizzle.mdx` + `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/database.mdx`
 - **File upload/download, R2 storage** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/storage.mdx`
-- **Email, sending/receiving** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/email.mdx` + `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/email/*.mdx`
+- **Email, sending/receiving** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/email.mdx` + `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/email/sending-email.mdx` + `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/email/email-templates.mdx`
 - **Background jobs, queues** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/queues.mdx`
 - **Scheduled tasks, cron** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/cron.mdx`
 - **Environment variables, secrets** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/env-vars.mdx`
@@ -132,6 +132,10 @@ Use this to find the right file for common questions:
 - **Custom HTTP methods, HEAD requests** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/routing.mdx` + `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx`
 - **Query parameters, searchParams** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/core/routing.mdx`
 - **Building with AI, llms.txt** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/guides/build-with-ai.mdx`
+- **Database seeding, seed script** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/database.mdx`
+- **Relational data, joins, jsonObjectFrom** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/experimental/database.mdx`
+- **Global error handling, app.fetch wrapping** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx`
+- **except handler, error bubbling** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx`
 - **Migration from 0.x** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/migrating.mdx`
 - **API reference (client)** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-client.mdx`
 - **API reference (router)** -> `${CLAUDE_PLUGIN_ROOT}/skills/rwsdk-docs/references/reference/sdk-router.mdx`
