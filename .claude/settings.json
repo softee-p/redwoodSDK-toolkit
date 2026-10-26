@@ -27,16 +27,18 @@
       "Bash(npx wrangler r2 bucket delete*)",
       "Bash(npx wrangler d1 execute * --remote*)",
       "Bash(cf * delete*)",
-      "Bash(git push --force*)",
-      "Bash(git push -f*)",
-      "Bash(git push origin --delete*)",
-      "Bash(git branch -D*)",
       "Bash(gh repo delete*)",
       "Read(~/.config/.wrangler/**)",
       "Read(~/.config/cf/**)",
       "Read(~/.alchemy/**)",
       "Read(~/.claude/.credentials.json)",
       "Read(~/.config/wheelhouse/config.json)"
+    ],
+    "ask": [
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push origin --delete*)",
+      "Bash(git branch -D*)"
     ]
   }
 }
