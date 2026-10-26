@@ -26,20 +26,11 @@
       "Bash(git push origin --delete*)",
       "Bash(git branch -D*)",
       "Bash(gh repo delete*)",
-      "Read(.env)",
-      "Read(.env.*)",
-      "Read(.dev.vars)",
-      "Read(.dev.vars.*)",
-      "Read(~/.config/cloudflare/**)",
-      "Read(~/.wrangler/config/**)",
       "Read(~/.config/.wrangler/**)",
       "Read(~/.config/cf/**)",
       "Read(~/.alchemy/**)",
       "Read(~/.claude/.credentials.json)",
-      "Read(~/.config/gh/hosts.yml)",
-      "Read(~/.config/wheelhouse/config.json)",
-      "Read(~/.ssh/**)",
-      "Read(~/.npmrc)"
+      "Read(~/.config/wheelhouse/config.json)"
     ]
   }
 }
