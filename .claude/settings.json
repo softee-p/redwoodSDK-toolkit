@@ -1,5 +1,45 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "enabledPlugins": {
     "plugin-dev@claude-plugins-official": false
+  },
+  "permissions": {
+    "deny": [
+      "Bash(npx wrangler auth token*)",
+      "Bash(wrangler auth token*)",
+      "Bash(pnpm exec wrangler auth token*)",
+      "Bash(bunx wrangler auth token*)",
+      "Bash(cf auth token*)",
+      "Bash(gh auth token*)",
+      "Bash(gh auth *)",
+      "Bash(wrangler secret*)",
+      "Bash(npx wrangler secret*)",
+      "Bash(wrangler delete*)",
+      "Bash(npx wrangler delete*)",
+      "Bash(npx wrangler d1 delete*)",
+      "Bash(npx wrangler kv namespace delete*)",
+      "Bash(npx wrangler r2 bucket delete*)",
+      "Bash(npx wrangler d1 execute * --remote*)",
+      "Bash(cf * delete*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push origin --delete*)",
+      "Bash(git branch -D*)",
+      "Bash(gh repo delete*)",
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(.dev.vars)",
+      "Read(.dev.vars.*)",
+      "Read(~/.config/cloudflare/**)",
+      "Read(~/.wrangler/config/**)",
+      "Read(~/.config/.wrangler/**)",
+      "Read(~/.config/cf/**)",
+      "Read(~/.alchemy/**)",
+      "Read(~/.claude/.credentials.json)",
+      "Read(~/.config/gh/hosts.yml)",
+      "Read(~/.config/wheelhouse/config.json)",
+      "Read(~/.ssh/**)",
+      "Read(~/.npmrc)"
+    ]
   }
 }
